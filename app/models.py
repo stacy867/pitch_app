@@ -8,16 +8,18 @@ from . import login_manager
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-class User( UserMixin,db.Model):
+class User(UserMixin,db.Model):
     __tablename__= 'users'
     
-    user_id =db.Column(db.Integer,primary_key = True)
+    id =db.Column(db.Integer,primary_key = True)
     username = db.Column(db.String(255))
     email = db.Column(db.String(255),unique = True,index = True)
     password_hash = db.Column(db.String(255))
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     pass_secure = db.Column(db.String(255))
+    pitch = db.relationship('Pitch',backref = 'users',lazy="dynamic")
+    
     
     @property
     def password(self):
@@ -43,9 +45,9 @@ class User( UserMixin,db.Model):
 class Pitch(db.Model):
     __tablename__='pitch'
     
-    pitch_id = db.Column(db.Integer,primary_key = True)
+    id = db.Column(db.Integer,primary_key = True)
     content =  db.Column(db.String(255))
-    user_id = db.Column(db.Integer,db.ForeignKey('pitch.pitch_id'))
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     
     
     def __repr__(self):

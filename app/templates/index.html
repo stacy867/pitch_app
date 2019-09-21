@@ -8,12 +8,16 @@
     <br>
     
     <div class=" col-md-10 col-md-offset-1 col-sm-12">
+
+        <p>Welcome to the pitchwebsite</p><br>
+        <p>In life, you only have 60 seconds to impress someone. 1 minute can make or break you. How do we make sure that you use your 1 minute to actually say something meaningful?</p>
+        <p>Click on the following links an have fun posting and impress the world </p>
         {% for cat in category%}
         
-        <h3 class="text-center">{{cat.name|upper}}</h3>
+        <!-- <h3 class="text">{{cat.name|upper}}</h3> -->
         <div>
             
-            <a href="{{url_for('main.index',id=cat.id)}}"><p>{{cat.name|upper}}</p></a>
+            <h3 class="text"><a href="{{url_for('main.index',id=cat.id)}}"><p>{{cat.name|upper}}</p></a></h3>
           </div>
         
         <hr>

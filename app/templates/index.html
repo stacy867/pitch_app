@@ -17,11 +17,33 @@
         <!-- <h3 class="text">{{cat.name|upper}}</h3> -->
         <div>
             
-            <h3 class="text"><a href="{{url_for('main.index',id=cat.id)}}"><p>{{cat.name|upper}}</p></a></h3>
+            <h3 class="text"><a href="{{url_for('main.new_pitch',id=cat.id)}}"><p>{{cat.name|upper}}</p></a></h3>
           </div>
         
         <hr>
+        {% for pit in cat.pitch %}
+          <div class="col-md-12">
+            <div class="well">
+              <div class="row">
+                <div class="col-md-10 col-sm-12">
+                    <h3>{{pit.content}}</h3>
+                    <p>{{pit.posted}}</p>
+                    
+                    
+              </div>
+            </div>
+           </div>
+        
+             
+        
+          </div>
+          {% endfor %}
+          <div class="well">
+            <h4 style="padding:10%; text-align:center;display:none; font-size:50px">NO PITCHES IN THIS CATEGORY. </h4>
+          </div>
         {% endfor %}
  
     </div>
+   
+
     {% endblock%}

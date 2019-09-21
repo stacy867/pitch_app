@@ -2,7 +2,7 @@ from flask import render_template,request,redirect,url_for,abort
 from . import main
 from .. import db,photos
 from .forms import UpdateProfile,PitchForm
-from ..models import  User,Category,Pitch,Comment,Vote
+from ..models import  User,Category,Pitch,Comment
 from flask_login import login_required, current_user
 from flask_login import UserMixin
 
@@ -61,15 +61,36 @@ def update_pic(uname):
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
 
-@main.route('/categories/<int:id>')
-def index(id):
+#LIKES AND DISLIKES
+@main.route('/pitch/<int:id>',methods = ['GET','POST'])
+def pitch(id):
+    pitch =Pitch.get_pitches(id)
+    
+    if request.args.get("upvotes"):
+        pitch.upvotes = pitch.upvotes +1
+        
+        db.session.add(pitch)
+        db.session.commit()
+        
+        return redirect("/pitch/{pitch_id}".format(pitch_id=pitch.id))
+    elif request.args.get("downvotes"):
+        pitch.downvotes = pitch.downvotes + 1
+        
+        db.session.add(pitch)
+        db.session.commit()
+        
+        return redirect("/pitch/{pitch_id}".format(pitch_id=pitch.id))
+        
+
+@main.route('/')
+def index():
     # category = Category.query.get(id)
     categoryy=Category.get_categories()
-    pitches=Pitch.get_pitches(id)
-     comment =Comments.get_comments(id)
+    # pitches=Pitch.get_pitches(id)
+    # comment =Comments.get_comments(id)
     # pitches = Pitch.query.filter_by(category=id).all()
     
-    return render_template('index.html', category=categoryy, pitch=pitches)
+    return render_template('index.html', category=categoryy)
 
 #inserting a new pitch
 @main.route('/categories/view_pitch/add/<int:id>', methods=['GET','POST'])
@@ -105,7 +126,7 @@ def viewing_pitch(id):
     
     # if pitches is None:
     #     abort(404)
-        comment =Comments.get_comments(id)
+    comment =Comments.get_comments(id)
     return render_template('pitch.html', pitches=pitches,category_id=id)
     
 

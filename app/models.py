@@ -21,7 +21,7 @@ class User(UserMixin,db.Model):
     pass_secure = db.Column(db.String(255))
     pitch = db.relationship('Pitch',backref = 'users',lazy="dynamic")
     comment = db.relationship('Comment', backref ='comments',lazy ="dynamic")
-    votes = db.relationship('Vote',backref ='users',lazy ="dynamic")
+    # votes = db.relationship('Vote',backref ='users',lazy ="dynamic")
     @property
     def password(self):
         raise AttributeError('You cannot read the password attribute')
@@ -49,8 +49,10 @@ class Pitch(db.Model):
     title = db.Column(db.String(255))
     category = db.Column(db.Integer, db.ForeignKey('category.id'))
     comments = db.relationship('Comment',backref = 'pitches', lazy ="dynamic")
-    votes = db.relationship('Vote', backref = 'pitches', lazy = "dynamic")
+    # votes = db.relationship('Vote', backref = 'pitches', lazy = "dynamic")
     posted = db.Column(db.DateTime,default=datetime.utcnow)
+    upvotes = db.Column(db.Integer)
+    downvotes = db.Column(db.Integer)
     
     def save_pitch(self):
         db.session.add(self)
@@ -65,6 +67,17 @@ class Pitch(db.Model):
     def get_pitches(id):
         pitches = Pitch.query.filter_by(category=id).all()
         return pitches
+    @classmethod
+    def count_pitches(cls,uname):
+        user = User.query.filter_by(username=uname).first()
+        pitches = Pitch.query.filter_by(user_id=user.id).all()
+        
+        pitches_count = 0
+        for pitch in pitches:
+            pitches_count += 1
+            
+        return pitches_count    
+    
 
     
     
@@ -95,7 +108,8 @@ class Comment(db.Model):
     feedback = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     pitch_id = db.Column(db.Integer, db.ForeignKey('pitch.id'))
-    votes = db.relationship('Vote', backref = 'comments', lazy = "dynamic")
+    
+
 
     def save_comment(self):
         '''
@@ -108,22 +122,27 @@ class Comment(db.Model):
     def get_comments(self, id):
         comment = Comments.query.order_by(Comments.time_posted.desc()).filter_by(pitches_id=id).all()
         return comment
-class Vote(db.Model):
-    __tablename__ = 'votes'
-    id = db.Column(db.Integer, primary_key = True)
-    vote = db.Column(db.Integer)
-    pitch_id = db.Column(db.Integer, db.ForeignKey('pitch.id'))
-    comment_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+# class Vote(db.Model):
+#     __tablename__ = 'votes'
+#     id = db.Column(db.Integer, primary_key = True)
+#     upvote = db.Column(db.Integer)
+#     downvote = db.Column(db.Integer)
+#     pitch_id = db.Column(db.Integer, db.ForeignKey('pitch.id'))
+#     comment_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
+#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
-    def save_vote(self):
-        db.session.add(self)
-        db.session.commit()
+#     def save_vote(self):
+#         db.session.add(self)
+#         db.session.commit()
 
-    @classmethod
-    def get_votes(cls,user_id,pitch_id):
-        votes = Vote.query.filter_by(user_id=user_id, pitches_id=pitch_id).all()
-        return votes       
+#     @classmethod
+#     def get_upvotes(cls,user_id,pitch_id):
+#         upvotes = Vote.query.filter_by(user_id=user_id, pitches_id=pitch_id).all()
+#         return upvotes 
+#     @classmethod
+#     def get_downvotes(cls,user_id,pitch_id):
+#         downvotes = Vote.query.filter_by(user_id=user_id, pitches_id=pitch_id).all()
+#         return downvotes       
     
 # class Comment(db.model):
 #     __tablename__='comment'

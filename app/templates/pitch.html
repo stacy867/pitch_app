@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class=" col-md-10 col-md-offset-1 col-sm-12">
+        {% for cat in pitches %}
+      <h3 class="text-center">{{cat.name|upper}}</h3>
+        <a class="btn btn-primary text-center text-danger " href="/index/viewing_pitch/{{cat.id}}"> Post a Pitch
+        </a>
+        <hr>
+        {% endfor %}   
+  </div>
+  {% for pitch in pitches %}
+  <div class="col-md-12">
+    <div class="well">
+      <div class="row">
+        <p>{{pitch.name|upper}}</p></a>
+        <div class="col-md-10 col-sm-12">
+            <h3>{{pitch.content}}</h3>
+            <p>{{pitch.posted}}</p>
+            
+           
+            
+            
+      </div>
+    </div>
+   </div>
+
+    </HISTORY> 
+
+  </div>
+  {% endfor %}
+  <div class="well">
+   
+  </div>
+
+{% endblock %}

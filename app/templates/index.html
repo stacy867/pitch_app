@@ -28,6 +28,8 @@
                 <div class="col-md-10 col-sm-12">
                     <h3>{{pit.content}}</h3>
                     <p>{{pit.posted}}</p>
+                    <button href="/pitch/{{pit.id}}?upvotes=0"type="button" class="btn btn-info">upvote {{pit.upvotes}}</button>
+                    <button href="/pitch/{{pit.id}}?downvotes=0"type="button" class="btn btn-info">downvote {{pit.downvotes}}</button>
                     
                     
               </div>

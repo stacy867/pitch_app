@@ -1,1 +1,23 @@
-{% extends 'base.html'%}
+
+{% extends "base.html" %}
+{% block content %}
+
+    
+         
+    <br>
+    <br>
+    
+    <div class=" col-md-10 col-md-offset-1 col-sm-12">
+        {% for cat in category%}
+        
+        <h3 class="text-center">{{cat.name|upper}}</h3>
+        <div>
+            
+            <a href="{{url_for('main.index',id=cat.id)}}"><p>{{cat.name|upper}}</p></a>
+          </div>
+        
+        <hr>
+        {% endfor %}
+ 
+    </div>
+    {% endblock%}

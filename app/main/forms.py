@@ -7,3 +7,8 @@ from .. import db
 class UpdateProfile(FlaskForm):
     bio = TextAreaField('Tell us about you.',validators = [Required()])
     submit = SubmitField('Submit')
+    
+#Pitch Form
+class PitchForm(FlaskForm):
+    content = TextAreaField('Post Your Pitch')
+    submit = SubmitField('Submit Pitch')    

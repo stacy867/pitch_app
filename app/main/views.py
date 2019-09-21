@@ -1,9 +1,9 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
 from .. import db,photos
-from .forms import UpdateProfile
-from ..models import  User,Category
-from flask_login import login_required
+from .forms import UpdateProfile,PitchForm
+from ..models import  User,Category,Pitch,Comment,Vote
+from flask_login import login_required, current_user
 from flask_login import UserMixin
 
 # @main.route('/')
@@ -65,9 +65,47 @@ def update_pic(uname):
 def index(id):
     # category = Category.query.get(id)
     categoryy=Category.get_categories()
+    pitches=Pitch.get_pitches(id)
+     comment =Comments.get_comments(id)
     # pitches = Pitch.query.filter_by(category=id).all()
     
-    return render_template('index.html', category=categoryy)
+    return render_template('index.html', category=categoryy, pitch=pitches)
 
+#inserting a new pitch
+@main.route('/categories/view_pitch/add/<int:id>', methods=['GET','POST'])
+@login_required
+def new_pitch(id):
+    '''
+    function to enter new pitches and fetch data from them
+    '''
+    form = PitchForm()
+    category = Category.query.filter_by(id=id).first()
+    title=f'welcome to pitches'
+    
+    if category is None:
+        abort(404)
+        
+    if form.validate_on_submit():
+        content = form.content.data
+        new_pitch= Pitch(content=content,category=category.id,user_id=current_user.id)
+        new_pitch.save_pitch()
+        return redirect(url_for('.index',id=category.id))
+    return render_template('new_pitch.html', title = title, pitch_form = form, category = category)
+            
+#viewing a Pitch with its comments
+@main.route('/categories/view_pitch/<int:id>', methods=['GET', 'POST'])
+@login_required
+def viewing_pitch(id):
+    '''
+    a function to view inserted pitches
+    '''
+    print(id)
+    
+    pitches=Pitch.get_pitches(id)
+    
+    # if pitches is None:
+    #     abort(404)
+        comment =Comments.get_comments(id)
+    return render_template('pitch.html', pitches=pitches,category_id=id)
     
 

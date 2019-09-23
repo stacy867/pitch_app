@@ -25,11 +25,12 @@ from flask_login import UserMixin
 @main.route('/user/<uname>')
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
+    pitches = Pitch.query.filter_by(user_id=current_user.id).all()
 
     if user is None:
         abort(404)
 
-    return render_template("profile/profile.html", user = user)
+    return render_template("profile/profile.html", user = user,pitches=pitches)
 
 @main.route('/user/<uname>/update',methods = ['GET','POST'])
 @login_required
@@ -156,9 +157,10 @@ def viewing_pitch(id):
     
     pitches=Pitch.get_pitches(id)
     
-    # if pitches is None:
-    #     abort(404)
+    if pitches is None:
+        abort(404)
     comment =Comments.get_comments(id)
+    
     return render_template('pitch.html',comment=comment, pitches=pitches,category_id=id)
     
 

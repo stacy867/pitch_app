@@ -28,11 +28,11 @@
                 <div class="col-md-10 col-sm-12">
                     <h3>{{pit.content}}</h3>
                     <p>{{pit.posted}}</p>
+                    <p>{{pit.comments}}</p>
                     <a href="/upvote/{{pit.id}}"type="button" class="btn btn-info">upvote {{pit.upvotes}}</a>
                     <a href="/downvote/{{pit.id}}"type="button" class="btn btn-info">downvote {{pit.downvotes}}</a>
-                    <p></p>
-                    
                     <a href="{{url_for('main.new_comment',id=pit.id)}}"><button type="button" class="btn btn-info">Comment</button></a>
+                    
                     
                     
               </div>

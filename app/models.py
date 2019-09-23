@@ -66,6 +66,7 @@ class Pitch(db.Model):
 
     def get_pitches(id):
         pitches = Pitch.query.filter_by(category=id).all()
+        
         return pitches
     @classmethod
     def count_pitches(cls,uname):
@@ -82,13 +83,14 @@ class Pitch(db.Model):
     
     
     def __repr__(self):
-        return f'Pitch {self.pitch_id}'
+        return f'Pitch {self.id}'
     
 class Category(db.Model):
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(255))
     pitch = db.relationship('Pitch',backref = 'categories', lazy ="dynamic")
+    # comments = db.relationship('Comment',backref = 'pitches', lazy ="dynamic")
     
     def save_category(self):
         db.session.add(self)
@@ -120,7 +122,7 @@ class Comment(db.Model):
 
     @classmethod
     def get_comments(self, id):
-        comment = Comments.query.order_by(Comments.time_posted.desc()).filter_by(pitches_id=id).all()
+        comment = Comment.query.filter_by(pitches_id=id).all()
         return comment
 # class Vote(db.Model):
 #     __tablename__ = 'votes'

@@ -14,7 +14,7 @@
         <p>Click on the following links an have fun posting and impress the world </p>
         {% for cat in category%}
         
-        <!-- <h3 class="text">{{cat.name|upper}}</h3> -->
+        <!-- <h3 class="text">{{cat.name|upper}}</h3> --> 
         <div>
             
             <h3 class="text"><a href="{{url_for('main.new_pitch',id=cat.id)}}"><p>{{cat.name|upper}}</p></a></h3>
@@ -28,8 +28,11 @@
                 <div class="col-md-10 col-sm-12">
                     <h3>{{pit.content}}</h3>
                     <p>{{pit.posted}}</p>
-                    <button href="/pitch/{{pit.id}}?upvotes=0"type="button" class="btn btn-info">upvote {{pit.upvotes}}</button>
-                    <button href="/pitch/{{pit.id}}?downvotes=0"type="button" class="btn btn-info">downvote {{pit.downvotes}}</button>
+                    <a href="/upvote/{{pit.id}}"type="button" class="btn btn-info">upvote {{pit.upvotes}}</a>
+                    <a href="/downvote/{{pit.id}}"type="button" class="btn btn-info">downvote {{pit.downvotes}}</a>
+                    <p></p>
+                    
+                    <a href="{{url_for('main.new_comment',id=pit.id)}}"><button type="button" class="btn btn-info">Comment</button></a>
                     
                     
               </div>

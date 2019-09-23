@@ -132,11 +132,9 @@ def new_comment(id):
     '''
     form = CommentForm()
     comment = Comment.query.filter_by(pitch_id=id).all()
-    pitches = Pitch.query.filter_by(id=id).all()
-    title=f'welcome to pitches'
+    pitches = Pitch.query.filter_by(id=id).first()
+    title=f'welcome to pitches comments'
     
-    # if category is None:
-    #     abort(404)
         
     if form.validate_on_submit():
         feedback = form.comment.data

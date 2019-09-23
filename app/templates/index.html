@@ -2,14 +2,16 @@
 {% extends "base.html" %}
 {% block content %}
 
-    
-         
+<link href="https://fonts.googleapis.com/css?family=Archivo+Narrow|Vollkorn+SC&display=swap" rel="stylesheet">
     <br>
     <br>
+    <div class="container">
+            
     
-    <div class=" col-md-10 col-md-offset-1 col-sm-12">
+    <div style ="font-family: 'Archivo Narrow', sans-serif;color:black" class=" col-md-10 col-md-offset-1 col-sm-12">
+        
 
-        <p>Welcome to the pitchwebsite</p><br>
+        <h1><strong>Welcome to the pitchwebsite</strong></h1><br>
         <p>In life, you only have 60 seconds to impress someone. 1 minute can make or break you. How do we make sure that you use your 1 minute to actually say something meaningful?</p>
         <p>Click on the following links an have fun posting and impress the world </p>
         {% for cat in category%}
@@ -17,7 +19,7 @@
         <!-- <h3 class="text">{{cat.name|upper}}</h3> --> 
         <div>
             
-            <h3 class="text"><a href="{{url_for('main.new_pitch',id=cat.id)}}"><p>{{cat.name|upper}}</p></a></h3>
+            <h3  class="text"><a style="color:black"href="{{url_for('main.new_pitch',id=cat.id)}}"><p>{{cat.name|upper}}</p></a></h3>
           </div>
         
         <hr>
@@ -29,9 +31,9 @@
                     <h3>{{pit.content}}</h3>
                     <p>{{pit.posted}}</p>
                     <p>{{pit.comments}}</p>
-                    <a href="/upvote/{{pit.id}}"type="button" class="btn btn-info">upvote {{pit.upvotes}}</a>
-                    <a href="/downvote/{{pit.id}}"type="button" class="btn btn-info">downvote {{pit.downvotes}}</a>
-                    <a href="{{url_for('main.new_comment',id=pit.id)}}"><button type="button" class="btn btn-info">Comment</button></a>
+                    <a href="/upvote/{{pit.id}}"type="button"style="background-color: black" class="btn btn-info">upvote {{pit.upvotes}}</a>
+                    <a href="/downvote/{{pit.id}}"type="button" style="background-color: black"class="btn btn-info">downvote {{pit.downvotes}}</a>
+                    <a href="{{url_for('main.new_comment',id=pit.id)}}"><button style="background-color: black" type="button" class="btn btn-info">Comment</button></a>
                     
                     
                     
@@ -50,5 +52,5 @@
  
     </div>
    
-
+</div>
     {% endblock%}

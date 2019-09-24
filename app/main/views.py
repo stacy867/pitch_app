@@ -6,21 +6,7 @@ from ..models import  User,Category,Pitch,Comment
 from flask_login import login_required, current_user
 from flask_login import UserMixin
 
-# @main.route('/')
-# def index():
-    
-#     '''
-#     View root page function that returns the index page and its data
-#     '''
 
-    
-#     title = 'Home - Welcome to The pitch website'
-#     category = Category.get_categories()
-
-
-
-    
-    # return render_template('index.html', title = title ,category= category)
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -92,15 +78,14 @@ def upvotes(id):
         
     return redirect("/".format(id=pitch.id))
     
+    
                
 
 @main.route('/')
 def index():
-    # category = Category.query.get(id)
-    categoryy=Category.get_categories()
-    # pitches=Pitch.get_pitches(id)
-    # comment =Comments.get_comments(id)
-    # pitches = Pitch.query.filter_by(category=id).all()
+   
+    categoryy=Category.query.all()
+    
     
     return render_template('index.html', category=categoryy)
 
@@ -134,15 +119,16 @@ def new_comment(id):
     form = CommentForm()
     comment = Comment.query.filter_by(pitch_id=id).all()
     pitches = Pitch.query.filter_by(id=id).first()
+    user = User.query.filter_by(id = id).first()
     title=f'welcome to pitches comments'
     
         
     if form.validate_on_submit():
         feedback = form.comment.data
-        new_comment= Comment(feedback=feedback,user_id=current_user.id)
+        new_comment= Comment(feedback=feedback,user_id=current_user.id,pitch_id=pitches.id)
          
         new_comment.save_comment()
-        return redirect(url_for('.index',))
+        return redirect(url_for('.index',uname=current_user.username))
     return render_template('comment.html', title = title, comment_form = form,pitches=pitches)
 
                 

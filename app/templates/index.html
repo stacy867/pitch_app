@@ -30,8 +30,9 @@
                 <div class="col-md-10 col-sm-12">
                     <p><strong>pitch content:</strong>{{pit.content}}</p>
                     <p><strong>posted at:</strong>{{pit.posted}}</p>
+                    <p><strong>posted by:</strong>{{pit.users.username}}</p>
                     {% for com in pit.comments %}
-                        <p><strong>{{current_user.username}} feedback:</strong>{{com.feedback}}</p>
+                        <p><strong>{{com.username}} feedback:</strong>{{com.feedback}}</p>
                     {% endfor %}
                     <a href="/upvote/{{pit.id}}"type="button"style="background-color: black" class="btn btn-info">upvote {{pit.upvotes}}</a>
                     <a href="/downvote/{{pit.id}}"type="button" style="background-color: black"class="btn btn-info">downvote {{pit.downvotes}}</a>

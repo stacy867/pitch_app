@@ -25,17 +25,28 @@ def update_profile(uname):
     if user is None:
         abort(404)
 
-    form = UpdateProfile()
-
+@main.route('/new_comment/<int:id>', methods=['GET','POST'])
+@login_required
+def new_comment(id):
+    '''
+    function that adds comment
+    '''
+    form = CommentForm()
+    comment = Comment.query.filter_by(pitch_id=id).all()
+    pitches = Pitch.query.filter_by(id=id).first()
+    user = User.query.filter_by(id = id).first()
+    title=f'welcome to pitches comments'
+    # if user is None:
+    #     abort(404)
+        
     if form.validate_on_submit():
-        user.bio = form.bio.data
+        feedback = form.comment.data
+        new_comment= Comment(feedback=feedback,user_id=current_user.id,pitch_id=pitches.id)
+         
+        new_comment.save_comment()
+        return redirect(url_for('.index',uname=current_user.username))
+    return render_template('comment.html', title = title, comment_form = form,pitches=pitches)
 
-        db.session.add(user)
-        db.session.commit()
-
-        return redirect(url_for('main.update_profile',uname=user.username))
-
-    return render_template('profile/update.html',form =form)
 
 @main.route('/user/<uname>/update/pic',methods= ['POST'])
 @login_required
@@ -109,28 +120,6 @@ def new_pitch(id):
         new_pitch.save_pitch()
         return redirect(url_for('.index',id=category.id))
     return render_template('new_pitch.html', title = title, pitch_form = form, category = category)
-
-@main.route('/new_comment/<int:id>', methods=['GET','POST'])
-@login_required
-def new_comment(id):
-    '''
-    function that adds comment
-    '''
-    form = CommentForm()
-    comment = Comment.query.filter_by(pitch_id=id).all()
-    pitches = Pitch.query.filter_by(id=id).first()
-    user = User.query.filter_by(id = id).first()
-    title=f'welcome to pitches comments'
-    # if user is None:
-    #     abort(404)
-        
-    if form.validate_on_submit():
-        feedback = form.comment.data
-        new_comment= Comment(feedback=feedback,user_id=current_user.id,pitch_id=pitches.id)
-         
-        new_comment.save_comment()
-        return redirect(url_for('.index',uname=current_user.username))
-    return render_template('comment.html', title = title, comment_form = form,pitches=pitches)
 
                 
 #viewing a Pitch with its comments

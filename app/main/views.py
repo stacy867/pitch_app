@@ -77,7 +77,7 @@ def upvotes(id):
     db.session.commit()
         
     return redirect("/".format(id=pitch.id))
-    
+    return redirect(".profile".format(id=pitch.id))
     
                
 
@@ -121,7 +121,8 @@ def new_comment(id):
     pitches = Pitch.query.filter_by(id=id).first()
     user = User.query.filter_by(id = id).first()
     title=f'welcome to pitches comments'
-    
+    # if user is None:
+    #     abort(404)
         
     if form.validate_on_submit():
         feedback = form.comment.data

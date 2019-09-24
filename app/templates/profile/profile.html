@@ -9,15 +9,14 @@
 
     <!--Displaying user bio-->
     {% if user.bio %}
-      <p> {{user.bio}}</p>
+      <p> <strong>BIO:</strong>{{user.bio}}</p>
     {%else%}
       <p> {{user.username| capitalize}} has no bio </p>
     {% endif %}
-  </div>
+ 
 
   <!--Display profile photo-->
-  <div class="col-md-4">
-
+  
     {% if user.profile_pic_path %}
     <img src="{{url_for('static',filename=user.profile_pic_path)}}" alt="" class="img-thumbnail">
     {%else%}
@@ -44,32 +43,25 @@
       <input type="submit">
 
     </form>
-    
-        
-        
-        <div>
-            
-           
-          </div>
-        
         <hr>
-        <p><strong>{{current_user.username|upper}} PITCHES:</strong></p>
+        <p ><strong style="text-decoration:'underline'">{{current_user.username|upper}} PITCHES:</strong></p>
         {% for pit in pitches %}
-          <div class="col-md-12">
-            <div class="well">
-              <div class="row">
-                <div class="col-md-10 col-sm-12">
-                    <h3>{{pit.content}}</h3>
-                    <p>{{pit.posted}}</p>
-                    <p>{{pit.comments}}</p>
-                    <a href="/upvote/{{pit.id}}"type="button"style="background-color: black" class="btn btn-info">upvote {{pit.upvotes}}</a>
-                    <a href="/downvote/{{pit.id}}"type="button" style="background-color: black"class="btn btn-info">downvote {{pit.downvotes}}</a>
-                    <a href="{{url_for('main.new_comment',id=pit.id)}}"><button style="background-color: black" type="button" class="btn btn-info">Comment</button></a>
-                    {% endfor %}
+        <p><strong>pitch content:</strong>{{pit.content}}</p>
+        <p><strong>posted at:</strong>{{pit.posted}}</p>
+        
+        <p><a href="/upvote/{{pit.id}}"type="button"style="background-color: black" class="btn btn-info">upvote {{pit.upvotes}}</a></p>
+        <p><a href="/downvote/{{pit.id}}"type="button" style="background-color: black"class="btn btn-info">downvote {{pit.downvotes}}</a></p>
+        
+        {% endfor %}
                    
+          
+            
+                    
       {% endif %}
       
-  </div>
+            
 </div>
 </div>
+</div>
+
 {% endblock %}

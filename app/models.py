@@ -21,7 +21,7 @@ class User(UserMixin,db.Model):
     pass_secure = db.Column(db.String(255))
     pitch = db.relationship('Pitch',backref = 'users',lazy="dynamic")
     comment = db.relationship('Comment', backref ='comments',lazy ="dynamic")
-    # votes = db.relationship('Vote',backref ='users',lazy ="dynamic")
+
     @property
     def password(self):
         raise AttributeError('You cannot read the password attribute')
@@ -90,7 +90,7 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(255))
     pitch = db.relationship('Pitch',backref = 'categories', lazy ="dynamic")
-    # comments = db.relationship('Comment',backref = 'pitches', lazy ="dynamic")
+   
     
     def save_category(self):
         db.session.add(self)
